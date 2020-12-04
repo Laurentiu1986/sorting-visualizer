@@ -1,0 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+
+.side-bar {
+    background-color:'#01263D';
+    color: 'white';
+    font-family: 'Open Sans', cursive;
+}

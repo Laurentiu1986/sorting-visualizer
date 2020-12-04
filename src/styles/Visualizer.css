@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+
+.primary-color {
+    background-color: #01263D;
+    font-family: 'Poppins', sans-serif !important;
+}
+.btn {
+    color: white!important;
+    min-width: 100%!important;
+    border: 0px !important;
+    line-height: 2.75!important;
+    letter-spacing: 0.20857em!important;
+    font-size: 1rem!important;
+}
+
+.paper-logo {
+    width: 100%;
+    background-color: transparent !important;
+    height: 20vh;
+}
+
+.title {
+    height: 5vh;
+    margin: 10vh 2vh 2vh 2vh !important;
+    border-radius: 10px; 
+}
+
+.generated-arrays {
+    height: 60vh;
+    border-radius: 10px; 
+    margin: 5vh 2vh 2vh 2vh !important;
+    position: relative
+}
+
+.bottom-controls {
+    height: 5vh;
+    margin: 5vh 2vh 2vh 2vh !important;
+    border-radius: 10px; 
+}
+
+@media screen and (max-width : 1450px) {
+    .title {
+        margin: 10vh 1vh 1vh 1vh !important;
+    }
+
+    .first {
+        margin: 10vh 1vh 1vh 3vh !important;
+    }
+
+    .bottom-first {
+        margin: 5vh 1vh 1vh 3vh !important;
+    }
+}
