@@ -234,14 +234,16 @@ class BubbleSort extends Component {
                         </Grid>
                         <Grid className="bottom-controls bottom-first" item xs={3}
                             justify="left">
-                            <PrettoSlider valueLabelDisplay="auto" aria-label="pretto slider" defaultValue={20} style={{ width: 'calc(70%)' }} min={5} max={40} onChange={(e, value) => {
+                            <Typography className="label" gutterBottom>Bars number: {this.state.BAR_NUMBER}</Typography>
+                            <PrettoSlider valueLabelDisplay="auto" aria-label="pretto slider" defaultValue={20} style={{ width: 'calc(60%)' }} min={5} max={40} onChange={(e, value) => {
                                 this.setState({ BAR_NUMBER: value });
                                 this.generateArray();
                             }} />
                         </Grid>
                         <Grid className="bottom-controls" item xs={3}
                             justify="left">
-                            <PrettoSlider valueLabelDisplay="auto" aria-label="pretto slider" defaultValue={5} style={{ width: 'calc(70%)' }} min={10} max={1000} onChange={(e, value) => this.setState({ ANIMATION_TIMEOUT: value })} />
+                            <Typography className="label" gutterBottom>Animation speed: {this.state.ANIMATION_TIMEOUT}</Typography>
+                            <PrettoSlider valueLabelDisplay="auto" aria-label="pretto slider" defaultValue={5} style={{ width: 'calc(60%)' }} min={10} max={1000} onChange={(e, value) => this.setState({ ANIMATION_TIMEOUT: value })} />
                         </Grid>
                         <Grid className="bottom-controls" item xs={3}
                             justify="left">

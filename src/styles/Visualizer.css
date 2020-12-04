@@ -38,6 +38,14 @@
     border-radius: 10px; 
 }
 
+.label {
+    text-align: left!important;
+    line-height: 1.75!important;
+    letter-spacing: 0.10857em!important;
+    font-size: 1rem!important;
+    font-family: 'Poppins', sans-serif !important;
+}
+
 @media screen and (max-width : 1450px) {
     .title {
         margin: 10vh 1vh 1vh 1vh !important;
