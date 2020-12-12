@@ -7,17 +7,19 @@ import {
     Button,
     Chip,
     Slider,
-    Toolbar,
     Typography,
-    AppBar,
-    IconButton,
-    Hidden
+    Radio,
+    RadioGroup,
+    FormControlLabel,
+    FormControl,
+    FormLabel
 } from '@material-ui/core';
 // import MenuIcon from '@material-ui/icons';
 
 import { withStyles } from '@material-ui/core/styles';
 import bubbleSortAlgorithm from '../algorithms/bubbleSort';
 import mergeSortAlgorithm from '../algorithms/mergeSort';
+import quickSortAlgorithm from '../algorithms/quickSort';
 
 import { ProSidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import 'react-pro-sidebar/dist/css/styles.css';
@@ -80,7 +82,7 @@ const PrettoSlider = withStyles({
 const DEFAULT_COLOR = 'rgb(3, 50, 78)';
 const SUCCESS_COLOR = 'green';
 const FAIL_COLOR = 'red';
-const MIN_RANGE = 1;
+const MIN_RANGE = 10;
 const MAX_RANGE = 10;
 
 class BubbleSort extends Component {
@@ -89,7 +91,8 @@ class BubbleSort extends Component {
         randoms: [],
         ANIMATION_TIMEOUT: 5,
         BAR_NUMBER: 20,
-        width: 10
+        width: 10,
+        ARRAY_SCENARIO: 'random'
     }
 
     constructor(props) {
@@ -173,6 +176,39 @@ class BubbleSort extends Component {
         }
     }
 
+    quickSort = async () => {
+        var animations = quickSortAlgorithm(this.state.randoms);
+
+        for (let i = 0; i < animations.length; i++) {
+            const arrayBars = document.getElementsByClassName('array-bar');
+            const [indexStart, indexEnd, swap, newHeight, oldHeight] = animations[i];
+            const barOneStyle = arrayBars[indexStart].style;
+            console.log("index", indexStart);
+            // if(indexStart) {
+                // barOneStyle = arrayBars[indexStart].style;
+            // }
+            const barTwoStyle = arrayBars[indexEnd].style;
+
+            if (!swap) {
+                setTimeout(() => {
+                    this.setBarsColor(barOneStyle, barTwoStyle, FAIL_COLOR);
+                }, this.state.ANIMATION_TIMEOUT);
+                await this.sleep(this.state.ANIMATION_TIMEOUT * 2).then(() => { })
+                this.resetBarsColor(barOneStyle, barTwoStyle);
+            } else {
+                setTimeout(() => {
+                    this.setBarsColor(barOneStyle, barTwoStyle, SUCCESS_COLOR);
+                    // if(indexStart) { 
+                        barOneStyle.height = `${newHeight * 2}px`;
+                    // }
+                    barTwoStyle.height = `${oldHeight * 2}px`;
+                }, this.state.ANIMATION_TIMEOUT);
+                await this.sleep(this.state.ANIMATION_TIMEOUT * 2).then(() => { })
+                this.resetBarsColor(barOneStyle, barTwoStyle);
+            }
+        }
+    }
+
     setBarsColor = (barOne, barTwo, color) => {
         if (barOne) barOne.backgroundColor = color;
         if (barTwo) barTwo.backgroundColor = color;
@@ -203,6 +239,9 @@ class BubbleSort extends Component {
                             <Button className="btn primary-color" variant="outlined" onClick={this.mergeSort}>
                                 Merge Sort
                             </Button>
+                            <Button className="btn primary-color" variant="outlined" onClick={this.quickSort}>
+                                Quick Sort
+                            </Button>
                         </Sidebar>
                     </Grid>
                 </Grid>
@@ -222,7 +261,10 @@ class BubbleSort extends Component {
                             <Grid container justify="center" spacing={2}>
                                 {this.state.randoms.map((value, index) => (
                                     <Grid key={index} item style={{ margin: Math.floor(150 / this.state.BAR_NUMBER) }}>
-                                        <Paper style={{ height: value * 2, backgroundColor: 'rgb(3, 50, 78)', width: 300 / this.state.BAR_NUMBER, margin: 1, position: 'absolute', bottom: 0 }} key={index} className="array-bar" />
+                                        <Paper style={{ height: value * 2, backgroundColor: 'rgb(3, 50, 78)', width: 300 / this.state.BAR_NUMBER, margin: 1, position: 'absolute', bottom: 0 }} key={index} className="array-bar">
+                                            {/* <Typography className="bar-value">{value}</Typography> */}
+                                        </Paper>
+                                        {/* <Chip variant="outlined" size="small" label={value} style={{ backgroundColor: '#1976d2' }} /> */}
                                     </Grid>
                                 ))}
                             </Grid>
@@ -247,34 +289,17 @@ class BubbleSort extends Component {
                         </Grid>
                         <Grid className="bottom-controls" item xs={3}
                             justify="left">
+                            {/* <FormControl className="case-container" component="fieldset">
+                                <FormLabel className="case-scenario label" component="legend">Array Case Scenario</FormLabel>
+                                <RadioGroup aria-label="best" name="gender1" value={this.state.ARRAY_SCENARIO} onChange={(e, value) => this.setState({ ARRAY_SCENARIO: value })}>
+                                    <FormControlLabel  value="best" control={<Radio className="label"/>} label="Best Case" />
+                                    <FormControlLabel className="label" value="random" control={<Radio />} label="Random" />
+                                    <FormControlLabel className="label" value="worst" control={<Radio />} label="Worst Case" />
+                                </RadioGroup>
+                            </FormControl> */}
                         </Grid>
                     </Grid>
                 </Grid>
-
-
-                {/* <Grid item xs={12}>
-                    <Button variant="outlined" color="primary" onClick={() => { this.generateArray() }}>
-                        Initialize Array
-                    </Button>
-                    <Button variant="outlined" color="primary" onClick={this.bubbleSort}>
-                        Bubble Sort
-                    </Button>
-                    <Button variant="outlined" color="primary" onClick={this.mergeSort}>
-                        Merge Sort
-                    </Button>
-                    <br></br>
-                    Bars: <PrettoSlider valueLabelDisplay="auto" aria-label="pretto slider" defaultValue={20} style={{ width: 250 }} min={5} max={100} onChange={(e, value) => this.setState({ BAR_NUMBER: value })} />
-                    <br></br>
-                    Animation speed: <PrettoSlider valueLabelDisplay="auto" aria-label="pretto slider" defaultValue={5} style={{ width: 250 }} min={1} max={2000} onChange={(e, value) => this.setState({ ANIMATION_TIMEOUT: value })} />
-                    <Grid container justify="center" spacing={2}>
-                        {this.state.randoms.map((value, index) => (
-                            <Grid key={index} item style={{ margin: 1 }}>
-                                <Paper style={{ height: value * 3, backgroundColor: '#1976d2', width: 10, margin: 3, position: 'absolute', bottom: 0 }} key={index} className="array-bar" /> */}
-                {/* <Chip variant="outlined" size="small" label={value} style={{ backgroundColor: '#1976d2' }} /> */}
-                {/* </Grid>
-                        ))}
-                    </Grid>
-                </Grid> */}
             </Grid>
 
         )
